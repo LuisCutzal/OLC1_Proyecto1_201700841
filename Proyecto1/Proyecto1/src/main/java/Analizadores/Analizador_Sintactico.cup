@@ -1,1 +1,48 @@
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+package Analizadores;
+import java_cup.runtime.Symbol;
 
+//------> Codigo para el parser,variables, metodos
+parser code
+{:
+    public static String resultado="";
+
+:}
+
+//------> Codigo para las acciones gramaticales
+action code
+{:  :}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+//------> declaracion de terminales 
+
+terminal coma, 
+         dspnt, 
+         lista,
+         digito, 
+         id,
+         cadena,
+         mas;
+
+//------> declaracion de no terminales
+non terminal String INICIO, 
+                    LISTA,
+                    VALOR;
+
+start with INICIO;
+
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+INICIO::=lista dspnt LISTA:a    {: parser.resultado=a; System.out.print(a); :} 
+       ;
+
+LISTA::= LISTA:a coma VALOR:b   {: RESULT = a.toString() + ", " + b.toString(); :}
+       | VALOR:a                {: RESULT = a; :}
+       ; 
+
+VALOR::= digito:a               {: RESULT = a.toString(); :}
+       | id:a                   {: RESULT = a.toString(); :}
+       | cadena:a               {: RESULT = a.toString(); :}
+       ;
