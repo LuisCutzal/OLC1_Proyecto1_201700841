@@ -11,7 +11,8 @@ package com.mycompany.proyecto1;
  */
 public class Main {
     public static void main (String [] args){
-        System.out.println("Hola");    
+        Ventana ven = new Ventana();
+        ven.show();
         
     }
     
