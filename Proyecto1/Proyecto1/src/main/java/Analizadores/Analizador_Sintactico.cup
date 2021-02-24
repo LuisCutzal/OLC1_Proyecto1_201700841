@@ -35,7 +35,7 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::=lista dspnt LISTA:a    {: parser.resultado=a; System.out.print(a); :} 
+INICIO::=lista dspnt LISTA:a    {: parser.resultado=a; System.out.print(a); :} //se puede usar de esta otra forma INICIO::=lista dspnt LISTA:a    {: resultado=a; System.out.print(a); :} 
        ;
 
 LISTA::= LISTA:a coma VALOR:b   {: RESULT = a.toString() + ", " + b.toString(); :}
