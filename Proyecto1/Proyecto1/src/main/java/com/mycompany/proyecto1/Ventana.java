@@ -5,6 +5,12 @@
  */
 package com.mycompany.proyecto1;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Compra
@@ -86,6 +92,11 @@ public class Ventana extends javax.swing.JFrame {
         jMenu1.setText("Archivo");
 
         jMenuItem1.setText("Abrir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Guardar");
@@ -100,6 +111,11 @@ public class Ventana extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Acerca de ...");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -173,10 +189,41 @@ public class Ventana extends javax.swing.JFrame {
         );
 
         BotonGenerarAutomata.getAccessibleContext().setAccessibleName("GAutomata");
-        Siguiente.getAccessibleContext().setAccessibleName("Siguiente");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Organización de lenguajes y Compiladores 1 \n Primer Semestre 2021 \n Seccion C \n Proyecto 1",  
+                                   "Acerca de...", JOptionPane.INFORMATION_MESSAGE); 
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+                try {
+            JFileChooser seleccionar = new JFileChooser();
+            int opcion = seleccionar.showOpenDialog(this);
+            File archivo = null;
+            if (opcion == JFileChooser.APPROVE_OPTION) {
+                archivo = seleccionar.getSelectedFile();
+            }
+
+            if (archivo == null) {
+                return;
+            }
+            String text = "";
+            BufferedReader buffer = new BufferedReader(new FileReader(archivo));
+            String linea = buffer.readLine();
+            while (linea != null) {
+                text += linea + "\n";
+                linea = buffer.readLine();
+            }
+            TextoEntrada.setText(text);
+        } catch (Exception ex) {
+
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
