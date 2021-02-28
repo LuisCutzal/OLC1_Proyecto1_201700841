@@ -1,13 +1,65 @@
+
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
 
-//------> Codigo para el parser,variables, metodos
-parser code
-{:
-    public static String resultado="";
 
+
+
+import com.mycompany.proyecto1.Nodo;
+
+
+
+
+
+
+
+import com.mycompany.proyecto1.Expresiones;
+
+import com.mycompany.proyecto1.Ventana;
+import com.mycompany.proyecto1.error;
+import com.mycompany.proyecto1.Arbol;
+
+import javax.swing.JOptionPane;
+import java.util.LinkedList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------> Codigo para el parser,variables, metodos
+parser code{:
+        
+        public static Nodo raiz; //raiz del arbol de expresiones
+        public static LinkedList<Expresiones> lista_er;
+        public int conthojas=0; //para llevar el control de quienes seran los nodos hoja
+
+        public void syntax_error(Symbol s) //para errores
+        {
+            
+            System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
+            error nuevo = new error("Error Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
+        }
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
+            error nuevo = new error("Error Sintactico", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
+        }
+
+        public Nodo getRaiz(){ //metodo para que devuelva el nodo raiz
+            return raiz;
+        }
 :}
 
 //------> Codigo para las acciones gramaticales
@@ -18,31 +70,55 @@ action code
 
 //------> declaracion de terminales 
 
-terminal coma, 
-         dspnt, 
-         lista,
-         digito, 
-         id,
-         cadena,
-         mas;
+terminal String LlaveAbre, LlaveCierra, porcentaje, conj, dosPuntos,NombreConjunto, flecha, InicioConjunto, tilde, FinConjunto, puntoycoma,
+nombre_expresión, concatenación, disyuncion, kleene, positivo, interrogacion, id,cadena, saltolinea, comillasimple, ComillaDoble;
+
 
 //------> declaracion de no terminales
-non terminal String INICIO, 
-                    LISTA,
-                    VALOR;
+non terminal LinkedList<Expresiones> INICIO, INSTRUCCIONES;
+
+non terminal Expresiones INSTRUCCION;
+
+non terminal Nodo ER;
+
+//------> precedencia de menor a mayor
+precedence left pnt;
+precedence left or;
+precedence left por;
+precedence left para;
+
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::=lista dspnt LISTA:a    {: parser.resultado=a; System.out.print(a); :} //se puede usar de esta otra forma INICIO::=lista dspnt LISTA:a    {: resultado=a; System.out.print(a); :} 
+INICIO::= dobleporc:a INSTRUCCIONES:b  dobleporc:c  {:  parser.lista_er = b; :}
+         | error                          
        ;
 
-LISTA::= LISTA:a coma VALOR:b   {: RESULT = a.toString() + ", " + b.toString(); :}
-       | VALOR:a                {: RESULT = a; :}
-       ; 
+INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b  {: RESULT = a; RESULT.add(b); :}
+                | INSTRUCCION:a                  {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                ;
 
-VALOR::= digito:a               {: RESULT = a.toString(); :}
-       | id:a                   {: RESULT = a.toString(); :}
-       | cadena:a               {: RESULT = a.toString(); :}
-       ;
+INSTRUCCION::= e_r:a igual:b ER:c pyc:d     {:  RESULT = new Expresiones(a.toString(), new Arbol(c)); :}
+            | error                          
+            ;
+
+ER::= ER:a or:b ER:c                {: RESULT=new Nodo("|", "", -1, a, c); :}
+    | ER:a pnt:b ER:c               {: RESULT=new Nodo(".", "", -1, a, c); :}
+    | ER:a por:b                    {: RESULT=new Nodo("*", "", -1, null, a); :}
+    | para:a ER:b parc:c            {: RESULT= b; :}
+    | ER:a para:b ER:c parc:d       {: RESULT=new Nodo(".", "", -1, a, c); :}
+    | id:a                          {: RESULT=new Nodo(a.toString(), "", parser.conthojas, null, null); parser.conthojas++; :}
+    | cadena:a                      {: RESULT=new Nodo(a.toString(), "", parser.conthojas, null, null); parser.conthojas++; :}
+    ;
+
+
+
+ 
+
+
+
+
+
+
