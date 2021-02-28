@@ -15,8 +15,6 @@ public class Expresiones {
         this.raiz = raiz;
         this.id = id;
     }
-    
-    
     public String getId(){
         return id;
     }
@@ -27,9 +25,5 @@ public class Expresiones {
     
      public Arbol getArbol(){
         return raiz;
-    }
-    
-    
-    
-    
+    }    
 }

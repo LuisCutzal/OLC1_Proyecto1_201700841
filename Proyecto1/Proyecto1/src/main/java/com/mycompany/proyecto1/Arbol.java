@@ -19,7 +19,6 @@ public class Arbol {
      public void GraficarSintactico(){
         String grafica = "Digraph Arbol_Sintactico{\n\n" + GraficaNodos(this.raiz, "0") + "\n\n}";        
         GenerarDot(grafica);
-
     }
     
     private String GraficaNodos(Nodo nodo, String i){
@@ -41,10 +40,8 @@ public class Arbol {
             r += "node" + i + "c[label = \"" + nodoToken + "\"];\n";
             r += "node" + i + " -> node" + i + "c\n";
         }
-        
         return r;
     }
-    
     private void GenerarDot(String cadena){
         FileWriter fichero = null;
         PrintWriter escritor = null;
@@ -60,12 +57,9 @@ public class Arbol {
             e.printStackTrace();
         }
     }
-    
     public void reportar() throws IOException {
-        
         String file_input_path = "Arbol_Sintactico.dot";
         String do_path = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe";
-        
         String file_get_path =  "Arbol_Sintactico.jpg" ;
         try {
             ProcessBuilder pBuilder;
@@ -75,8 +69,6 @@ public class Arbol {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-       
-     
        Desktop.getDesktop().open(new File(file_get_path));
     }
 

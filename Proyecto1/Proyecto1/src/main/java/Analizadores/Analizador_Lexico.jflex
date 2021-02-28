@@ -26,7 +26,6 @@ import com.mycompany.proyecto1.Ventana;
 %char
 %column
 %full
-%ignorecase
 %line
 %unicode
 
@@ -55,7 +54,7 @@ nComentario         = "<! !>" {InputCharacter}* {LineTerminator}?
 
 "{"         { System.out.println("Reconocio "+yytext()+" llaveabre"); return new Symbol(Simbolos.llaveabre, yycolumn, yyline, yytext()); }
 "}"         { System.out.println("Reconocio "+yytext()+" llavecierra"); return new Symbol(Simbolos.llavecierra, yycolumn, yyline, yytext()); }
-"->"        { System.out.println("Reconocio "+yytext()+" fleca"); return new Symbol(Simbolos.flecha, yycolumn, yyline, yytext()); }
+"->"        { System.out.println("Reconocio "+yytext()+" flecha"); return new Symbol(Simbolos.flecha, yycolumn, yyline, yytext()); }
 "~"         { System.out.println("Reconocio "+yytext()+" tilde"); return new Symbol(Simbolos.tilde, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" puntoycoma"); return new Symbol(Simbolos.puntoycoma, yycolumn, yyline, yytext()); }
 "."         { System.out.println("Reconocio "+yytext()+" concatenacion"); return new Symbol(Simbolos.concatenacion, yycolumn, yyline, yytext()); }
@@ -66,16 +65,17 @@ nComentario         = "<! !>" {InputCharacter}* {LineTerminator}?
 "|"         { System.out.println("Reconocio "+yytext()+" disyuncion"); return new Symbol(Simbolos.disyuncion, yycolumn, yyline, yytext()); }
 "%%"        { System.out.println("Reconocio "+yytext()+" dobleporcentaje"); return new Symbol(Simbolos.dobleporcentaje, yycolumn, yyline, yytext()); }
 "\\'"       { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext()); }
-
+"\\n"       { System.out.println("Reconocio "+yytext()+" saltolinea"); return new Symbol(Simbolos.saltolinea, yycolumn, yyline, yytext()); }
 
 //-----> Palabras reservadas
-"ER"        { System.out.println("Reconocio "+yytext()+" e_r"); return new Symbol(Simbolos.e_r, yycolumn, yyline, yytext()); }
+"CONJ"        { System.out.println("Reconocio "+yytext()+" conj"); return new Symbol(Simbolos.conj, yycolumn, yyline, yytext()); }
 
 
 //-------> Simbolos ER
 {numero}    { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext()); }
 {cadena}    { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
-{id}    { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
+{Letra}     { System.out.println("Reconocio "+yytext()+" letra"); return new Symbol(Simbolos.letra, yycolumn, yyline, yytext()); }
+{id}        { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
 
 //------> Espacios
 {comentariosimple}      {System.out.println("Comentario: "+yytext()); }
