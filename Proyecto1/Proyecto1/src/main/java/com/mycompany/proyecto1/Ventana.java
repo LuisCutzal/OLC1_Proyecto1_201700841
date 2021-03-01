@@ -5,9 +5,18 @@
  */
 package com.mycompany.proyecto1;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -16,12 +25,58 @@ import javax.swing.JOptionPane;
  * @author Compra
  */
 public class Ventana extends javax.swing.JFrame {
-
+    public static ArrayList<error> listaErrores = new ArrayList<error>();
     /**
      * Creates new form Ventana
      */
     public Ventana() {
         initComponents();
+    }
+       public static void generarReporteHTML() throws IOException{
+        FileWriter fichero = null;
+                PrintWriter pw = null;
+                try {
+                    String path = "Reporteerrores.html";
+                    fichero = new FileWriter(path);
+                    pw = new PrintWriter(fichero);
+                    //comenzamos a escribir el html
+                    pw.println("<html>");
+                    pw.println("<head><title>REPORTE DE ERRORES</title></head>");
+                    pw.println("<body>");
+                    pw.println("<div align=\"center\">");
+                    pw.println("<h1>Reporte de Errores</h1>");
+                    pw.println("<br></br>");
+                    pw.println("<table border=1>");
+                    pw.println("<tr>");
+                    pw.println("<td>ERROR</td>");
+                    pw.println("<td>DESCRIPCION</td>");
+                    pw.println("<td>FILA</td>");
+                    pw.println("<td>COLUMNA</td>");
+                    pw.println("</tr>");
+                    for(int i=0;i<listaErrores.size();i++){
+                        pw.println("<tr>");
+                        pw.println("<td>"+listaErrores.get(i).getTipo()+"</td>");
+                        pw.println("<td>"+listaErrores.get(i).getDescripcion()+"</td>");
+                        pw.println("<td>"+listaErrores.get(i).getFila()+"</td>");
+                        pw.println("<td>"+listaErrores.get(i).getColumna()+"</td>");
+                        pw.println("</tr>");
+                    }
+                    pw.println("</table>");
+                    pw.println("</div");
+                    pw.println("</body>");
+                    pw.println("</html>");
+                    Desktop.getDesktop().open(new File(path));
+                } catch (Exception e) {
+                }finally{
+                    if(null!=fichero){
+                            fichero.close();
+                    }
+                }
+                try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -68,6 +123,11 @@ public class Ventana extends javax.swing.JFrame {
         BotonGenerarAutomata.setActionCommand("GAutomata");
         BotonGenerarAutomata.setLabel("Generar Automata");
         BotonGenerarAutomata.setName(""); // NOI18N
+        BotonGenerarAutomata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonGenerarAutomataActionPerformed(evt);
+            }
+        });
 
         BotonAnalizarEntradas.setActionCommand("AnalicarEntradas");
         BotonAnalizarEntradas.setLabel("Analizar Entradas");
@@ -224,6 +284,32 @@ public class Ventana extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void BotonGenerarAutomataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGenerarAutomataActionPerformed
+        // TODO add your handling code here:
+                try {   
+        //se ejecuta el lexico y sintactico.
+           Sintactico sintactico =new Sintactico(new Analizador_Lexico(new BufferedReader( new StringReader(jTextArea1.getText()))));
+            sintactico.parse();
+            generarReporteHTML();
+            System.out.println("Todo bien, todo correcto :)");
+            
+            LinkedList<Expresiones> lista_er = sintactico.lista_er;
+            
+            for(int i = 0; i < lista_er.size(); i++){
+                System.out.println("Expresion " + i);
+                if(lista_er.get(i) != null){
+                    lista_er.get(i).getArbol().GraficarSintactico();
+                }
+                
+                
+            }
+            
+            
+        } catch (Exception ex) {
+           Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_BotonGenerarAutomataActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,38 +3,15 @@
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
-
-
-
-
+import com.mycompany.proyecto1.Conjunto;
 import com.mycompany.proyecto1.Nodo;
-
-
-
-
-
-
-
 import com.mycompany.proyecto1.Expresiones;
-
 import com.mycompany.proyecto1.Ventana;
 import com.mycompany.proyecto1.error;
 import com.mycompany.proyecto1.Arbol;
 
 import javax.swing.JOptionPane;
 import java.util.LinkedList;
-
-
-
-
-
-
-
-
-
-
-
-
 
 //------> Codigo para el parser,variables, metodos
 parser code{:
@@ -130,10 +107,3 @@ E::= concatenacion:a E:b E:c                     {: RESULT= new Nodo(".","",-1,b
      |comillasimple:a                            {: RESULT= new Nodo("'","",parser.conthojas,null,null); parser.conthojas++; :}
      |comilladoble:a                             {: RESULT= new Nodo(""","",parser.conthojas,null,null); parser.conthojas++; :}
      ;
-
-LISTA_ANALISIS::= LISTA_ANALISIS:a ANALISIS:b    {:  :}
-        |ANALISIS:a                              {:  :}
-        ;
-
-ANALISIS::= cadena:a dospuntos:b cadena:c puntoycoma:d   {:  :}
-        ;

@@ -182,6 +182,9 @@
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="GAutomata"/>
       </AccessibilityProperties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonGenerarAutomataActionPerformed"/>
+      </Events>
     </Component>
     <Component class="java.awt.Button" name="BotonAnalizarEntradas">
       <Properties>
