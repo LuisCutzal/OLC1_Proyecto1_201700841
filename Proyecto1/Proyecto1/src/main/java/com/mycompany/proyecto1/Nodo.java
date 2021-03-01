@@ -25,6 +25,8 @@ public class Nodo {
     
     //constructor para la clase nodo, se puede extender con mas componentes que necesitemos para el proyecto
     public Nodo (String token, String lexema, int id, Nodo HijoIzquierdo, Nodo HijoDerecho){
+        //".","",-1,b,c
+        //a.toString(), "", parser.conthojas, null, null
         this.token = token;
         this.lexema = lexema;
         this.id= id;

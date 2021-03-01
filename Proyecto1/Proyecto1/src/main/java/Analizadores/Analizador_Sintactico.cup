@@ -40,9 +40,10 @@ import java.util.LinkedList;
 parser code{:
         
         public static Nodo raiz; //raiz del arbol de expresiones
-        public static LinkedList<Expresiones> lista_er;
+        public static LinkedList<Expresiones> lista_total;
+        public static LinkedList<Conjunto> lista_conj;
         public int conthojas=0; //para llevar el control de quienes seran los nodos hoja
-
+        public String resultado="";
         public void syntax_error(Symbol s) //para errores
         {
             
@@ -70,71 +71,69 @@ action code
 
 //------> declaracion de terminales 
 
-terminal String llaveabre, llavecierra, dobleporcentaje, conj, dosPuntos,NombreConjunto;
-terminal String flecha, InicioConjunto, tilde, FinConjunto, puntoycoma,nombre_expresión;
-terminal String concatenación, disyuncion, kleene, positivo, interrogacion, id,cadena, saltolinea, comillasimple, ComillaDoble;
+terminal String llaveabre,llavecierra,guion,mayor,tilde,puntoycoma,concatenacion,kleene,comilladoble,positivo,interrogacion,disyuncion,dobleporcentaje,comillasimple,conj,numero,cadena,letra,id;
 
 
 //------> declaracion de no terminales
-non terminal LinkedList<Expresiones> INICIO, INSTRUCCIONES;
+non terminal LinkedList<Expresiones> INICIO, CUERPO;
 
-non terminal Expresiones INSTRUCCION;
+non terminal LinkedList<Conjunto> LISTA_CONJ;
 
-non terminal Nodo ER;
+non terminal Conjunto CONJ;
 
+non terminal Expresiones EXPRESION;
 
+non terminal Nodo E;
 
 
 
 //------> precedencia de menor a mayor
-precedence left pnt;
-precedence left or;
-precedence left por;
-precedence left para;
 
-
-
-
-
+precedence right llaveabre
 precedence right concatenacion;
-
 precedence right disyuncion;
-
 precedence right kleene, positivo , interrogacion;
 
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+INICIO::= llaveabre:a CUERPO:b llavecierra:c    {: parser.lista_total=b; :}
+        | error
+        ;
 
-INICIO::= dobleporc:a INSTRUCCIONES:b  dobleporc:c  {:  parser.lista_er = b; :}
-         | error                          
-       ;
+CUERPO::= CUERPO:a LISTA_CONJ:b                 {: RESULT=a; RESULT.add(b); :}
+        | CUERPO:a EXPRESION:b                  {: RESULT=a; RESULT.add(b); :}
+        | dobleporcentaje:a                     {: parser.resultado=a; System.out.print(a); :}
+        | LISTA_ANALISIS:a                      {: RESULT= new LinkedList<>(); RESULT.add(a); :}
+        ;
 
-INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b  {: RESULT = a; RESULT.add(b); :}
-                | INSTRUCCION:a                  {: RESULT = new LinkedList<>(); RESULT.add(a); :}
-                ;
+LISTA_CONJ::= LISTA_CONJ:a CONJ:b               {: RESULT=a; RESULT.add(b); :}
+        | CONJ:a                                {: RESULT= new LinkedList<>(); RESULT.add(a) :}
+        ;
 
-INSTRUCCION::= e_r:a igual:b ER:c pyc:d     {:  RESULT = new Expresiones(a.toString(), new Arbol(c)); :}
-            | error                          
-            ;
+CONJ::= conj:a dospuntos:b  id:c guion:d mayor:e cadena:f tilde:g cadena:h puntoycoma:i {: RESULT= new Conjunto(a.toString(),c.toString(), f.toString(), h.toString()); :}
+        | error
+        ;
 
-ER::= ER:a or:b ER:c                {: RESULT=new Nodo("|", "", -1, a, c); :}
-    | ER:a pnt:b ER:c               {: RESULT=new Nodo(".", "", -1, a, c); :}
-    | ER:a por:b                    {: RESULT=new Nodo("*", "", -1, null, a); :}
-    | para:a ER:b parc:c            {: RESULT= b; :}
-    | ER:a para:b ER:c parc:d       {: RESULT=new Nodo(".", "", -1, a, c); :}
-    | id:a                          {: RESULT=new Nodo(a.toString(), "", parser.conthojas, null, null); parser.conthojas++; :}
-    | cadena:a                      {: RESULT=new Nodo(a.toString(), "", parser.conthojas, null, null); parser.conthojas++; :}
-    ;
+EXPRESION::= cadena:a guion:b mayor:c E:d puntoycoma:e  {: RESULT= new Expresiones(a.toString(), new Arbol(d)): :}
+        | error
+        ;
 
-//*************************************
+E::= concatenacion:a E:b E:c                     {: RESULT= new Nodo(".","",-1,b,c); :}
+     |disyuncion:a E:b E:c                       {: RESULT= new Nodo("|","",-1,b,c) :}
+     |kleene:a E:b                               {: RESULT= new Nodo("*","",-1,null,b) :}
+     |interrogacion:a E:b                        {: RESULT= new Nodo("?","",-1,null,b) :}
+     |llaveabre:a id:b llavecierra:c             {: RESULT= new Nodo(b.toString(),"",parser.conthojas,null,null); parser.conthojas++; :}
+     |cadena:a                                   {: RESULT= new Nodo(a.toString(),"",parser.conthojas,null,null); parser.conthojas++; :}
+     |saltolinea:a                               {: RESULT= new Nodo("\n","",parser.conthojas,null,null); parser.conthojas++; :}
+     |comillasimple:a                            {: RESULT= new Nodo("'","",parser.conthojas,null,null); parser.conthojas++; :}
+     |comilladoble:a                             {: RESULT= new Nodo(""","",parser.conthojas,null,null); parser.conthojas++; :}
+     ;
 
-INICIO::= 
- 
+LISTA_ANALISIS::= LISTA_ANALISIS:a ANALISIS:b    {:  :}
+        |ANALISIS:a                              {:  :}
+        ;
 
-
-
-
-
-
+ANALISIS::= cadena:a dospuntos:b cadena:c puntoycoma:d   {:  :}
+        ;
