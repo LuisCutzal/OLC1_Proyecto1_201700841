@@ -1,7 +1,10 @@
 package Generador;
-public class GenSintactico {
-    public static void main (String[] args){
+
+public class GenSintactico{
+    public static void main(String[] args)
+    {
         String opciones[] = new String[7]; 
+        
         //Seleccionamos la opción de dirección de destino
         opciones[0] = "-destdir";
         

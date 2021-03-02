@@ -5,19 +5,15 @@
  */
 package com.mycompany.proyecto1;
 
-import java.awt.Desktop;
+
+
+
+import Analizadores.Analizador_Lexico;
+import Analizadores.Sintactico;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,59 +21,15 @@ import javax.swing.JOptionPane;
  * @author Compra
  */
 public class Ventana extends javax.swing.JFrame {
-    public static ArrayList<error> listaErrores = new ArrayList<error>();
+
     /**
      * Creates new form Ventana
      */
     public Ventana() {
         initComponents();
     }
-       public static void generarReporteHTML() throws IOException{
-        FileWriter fichero = null;
-                PrintWriter pw = null;
-                try {
-                    String path = "Reporteerrores.html";
-                    fichero = new FileWriter(path);
-                    pw = new PrintWriter(fichero);
-                    //comenzamos a escribir el html
-                    pw.println("<html>");
-                    pw.println("<head><title>REPORTE DE ERRORES</title></head>");
-                    pw.println("<body>");
-                    pw.println("<div align=\"center\">");
-                    pw.println("<h1>Reporte de Errores</h1>");
-                    pw.println("<br></br>");
-                    pw.println("<table border=1>");
-                    pw.println("<tr>");
-                    pw.println("<td>ERROR</td>");
-                    pw.println("<td>DESCRIPCION</td>");
-                    pw.println("<td>FILA</td>");
-                    pw.println("<td>COLUMNA</td>");
-                    pw.println("</tr>");
-                    for(int i=0;i<listaErrores.size();i++){
-                        pw.println("<tr>");
-                        pw.println("<td>"+listaErrores.get(i).getTipo()+"</td>");
-                        pw.println("<td>"+listaErrores.get(i).getDescripcion()+"</td>");
-                        pw.println("<td>"+listaErrores.get(i).getFila()+"</td>");
-                        pw.println("<td>"+listaErrores.get(i).getColumna()+"</td>");
-                        pw.println("</tr>");
-                    }
-                    pw.println("</table>");
-                    pw.println("</div");
-                    pw.println("</body>");
-                    pw.println("</html>");
-                    Desktop.getDesktop().open(new File(path));
-                } catch (Exception e) {
-                }finally{
-                    if(null!=fichero){
-                            fichero.close();
-                    }
-                }
-                try {
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+       
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,20 +40,18 @@ public class Ventana extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TextoEntrada = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         BotonGenerarAutomata = new java.awt.Button();
         BotonAnalizarEntradas = new java.awt.Button();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         Anterior = new java.awt.Button();
         Siguiente = new java.awt.Button();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -111,10 +61,6 @@ public class Ventana extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        TextoEntrada.setColumns(20);
-        TextoEntrada.setRows(5);
-        jScrollPane1.setViewportView(TextoEntrada);
 
         jLabel1.setText("Archivo de Entrada");
 
@@ -132,10 +78,6 @@ public class Ventana extends javax.swing.JFrame {
         BotonAnalizarEntradas.setActionCommand("AnalicarEntradas");
         BotonAnalizarEntradas.setLabel("Analizar Entradas");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
-
         Anterior.setActionCommand("Anterior");
         Anterior.setLabel("Anterior");
 
@@ -148,6 +90,10 @@ public class Ventana extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver Imagenes", "Arboles", "Siguientes", "Transiciones", "Automatas" }));
 
         jLabel4.setText("Imagen");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         jMenu1.setText("Archivo");
 
@@ -188,10 +134,9 @@ public class Ventana extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,7 +163,7 @@ public class Ventana extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,23 +174,23 @@ public class Ventana extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(30, 30, 30)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(169, 169, 169)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
-                                .addComponent(BotonGenerarAutomata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(BotonAnalizarEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Anterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(214, 214, 214)
-                                .addComponent(Siguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(Siguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BotonGenerarAutomata, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonAnalizarEntradas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(14, 14, 14)
                 .addComponent(jLabel2)
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
 
         BotonGenerarAutomata.getAccessibleContext().setAccessibleName("GAutomata");
@@ -255,60 +200,26 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Organización de lenguajes y Compiladores 1 \n Primer Semestre 2021 \n Seccion C \n Proyecto 1",  
-                                   "Acerca de...", JOptionPane.INFORMATION_MESSAGE); 
+
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-                try {
-            JFileChooser seleccionar = new JFileChooser();
-            int opcion = seleccionar.showOpenDialog(this);
-            File archivo = null;
-            if (opcion == JFileChooser.APPROVE_OPTION) {
-                archivo = seleccionar.getSelectedFile();
-            }
 
-            if (archivo == null) {
-                return;
-            }
-            String text = "";
-            BufferedReader buffer = new BufferedReader(new FileReader(archivo));
-            String linea = buffer.readLine();
-            while (linea != null) {
-                text += linea + "\n";
-                linea = buffer.readLine();
-            }
-            TextoEntrada.setText(text);
-        } catch (Exception ex) {
-
-        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void BotonGenerarAutomataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGenerarAutomataActionPerformed
         // TODO add your handling code here:
-                try {   
-        //se ejecuta el lexico y sintactico.
-           Sintactico sintactico =new Sintactico(new Analizador_Lexico(new BufferedReader( new StringReader(jTextArea1.getText()))));
+        try{
+            Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             sintactico.parse();
-            generarReporteHTML();
-            System.out.println("Todo bien, todo correcto :)");
-            
-            LinkedList<Expresiones> lista_er = sintactico.lista_er;
-            
-            for(int i = 0; i < lista_er.size(); i++){
-                System.out.println("Expresion " + i);
-                if(lista_er.get(i) != null){
-                    lista_er.get(i).getArbol().GraficarSintactico();
-                }
-                
-                
-            }
-            
-            
-        } catch (Exception ex) {
-           Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Todo bien");
+        } catch (Exception ex){
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            //identificara el error en consola
         }
+        
+
     }//GEN-LAST:event_BotonGenerarAutomataActionPerformed
 
     /**
@@ -351,7 +262,6 @@ public class Ventana extends javax.swing.JFrame {
     private java.awt.Button BotonAnalizarEntradas;
     private java.awt.Button BotonGenerarAutomata;
     private java.awt.Button Siguiente;
-    private javax.swing.JTextArea TextoEntrada;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -365,7 +275,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
