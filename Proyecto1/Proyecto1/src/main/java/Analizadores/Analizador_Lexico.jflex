@@ -38,7 +38,7 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
 comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
-
+comentariodoble     = [\<!][^]+[\!>] {InputCharacter}* {LineTerminator}?
 //------> Estados
 
 %%
@@ -58,15 +58,16 @@ comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
 ","         { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos.coma, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" puntoycoma"); return new Symbol(Simbolos.puntoycoma, yycolumn, yyline, yytext()); }
 "%"         { System.out.println("Reconocio "+yytext()+" porcentaje"); return new Symbol(Simbolos.porcentaje, yycolumn, yyline, yytext()); }
-"\\\""         { System.out.println("Reconocio "+yytext()+" comilladoble"); return new Symbol(Simbolos.comilladoble, yycolumn, yyline, yytext()); }
-"\\\'"         { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext()); }
+"\""         { System.out.println("Reconocio "+yytext()+" comilladoble"); return new Symbol(Simbolos.comilladoble, yycolumn, yyline, yytext()); }
+"\'"         { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext()); }
 "."         { System.out.println("Reconocio "+yytext()+" concatenacion"); return new Symbol(Simbolos.concatenacion, yycolumn, yyline, yytext()); }
 "*"         { System.out.println("Reconocio "+yytext()+" kleene"); return new Symbol(Simbolos.kleene, yycolumn, yyline, yytext()); }
 "+"         { System.out.println("Reconocio "+yytext()+" positivo"); return new Symbol(Simbolos.positivo, yycolumn, yyline, yytext()); }
 "?"         { System.out.println("Reconocio "+yytext()+" interrogacion"); return new Symbol(Simbolos.interrogacion, yycolumn, yyline, yytext()); }
 "|"         { System.out.println("Reconocio "+yytext()+" disyuncion"); return new Symbol(Simbolos.disyuncion, yycolumn, yyline, yytext()); }
-
-
+"\n"         { System.out.println("Reconocio "+yytext()+" saltolinea"); return new Symbol(Simbolos.saltolinea, yycolumn, yyline, yytext()); }
+"\“"         { System.out.println("Reconocio "+yytext()+" comillaAbrir"); return new Symbol(Simbolos.comillaAbrir, yycolumn, yyline, yytext()); }
+"\”"         { System.out.println("Reconocio "+yytext()+" comillaCerrar"); return new Symbol(Simbolos.comillaCerrar, yycolumn, yyline, yytext()); }
 //-----> Palabras reservadas
 "CONJ"        { System.out.println("Reconocio "+yytext()+" conj"); return new Symbol(Simbolos.conj, yycolumn, yyline, yytext()); }
 
@@ -78,6 +79,7 @@ comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
 
 //------> Espacios
 {comentariosimple}      {System.out.println("Comentario: "+yytext()); }
+{comentariodoble}       {System.out.println("Comentario doble: "+yytext()); }
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 
 //------> Errores Lexicos

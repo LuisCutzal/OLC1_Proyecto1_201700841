@@ -19,26 +19,36 @@ action code
 terminal String llaveabre,llavecierra;
 terminal String guion, mayor,tilde,porcentaje;
 terminal String dospuntos, coma, puntoycoma;
-terminal String comilladoble, comillasimple;
+terminal String comilladoble, comillasimple,saltolinea;
+terminal String comillaAbrir, comillaCerrar;
 terminal String concatenacion, kleene, disyuncion, interrogacion, positivo;
 terminal String conj, numero, cadena,id,letra;
 
 //------> declaracion de no terminales
 non terminal  INICIO,CUERPO;
-non terminal LISTA_CONJ, CONJ;
-
-
+non terminal LISTA_CONJ, CONJ,CONJUNTO;
+non terminal LISTA_EXPRESIONES, E;
+non terminal CADENAS_EVALUAR, EVALUAR;
 //------> precedencia de menor a mayor
 
+precedence left coma;
+precedence left tilde;
+precedence left saltolinea;
+precedence right concatenacion;
+precedence right disyuncion;
+precedence right kleene, positivo, interrogacion;
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= llaveabre CUERPO llavecierra                                           {:  :}
+INICIO::= llaveabre saltolinea CUERPO saltolinea llavecierra                                           {:  :}
     ;
-CUERPO::= LISTA_CONJ
+CUERPO::=LISTA_CONJ     
+    | LISTA_EXPRESIONES  
     | porcentaje porcentaje
+    | CADENAS_EVALUAR
+    | CUERPO saltolinea CUERPO
 ;
 
 LISTA_CONJ::= LISTA_CONJ CONJ
@@ -46,5 +56,34 @@ LISTA_CONJ::= LISTA_CONJ CONJ
 
 ;
 
-CONJ::= conj dospuntos id guion mayor letra tilde letra puntoycoma
+CONJ::= conj dospuntos id guion mayor CONJUNTO puntoycoma
+;
+
+CONJUNTO::= CONJUNTO coma  CONJUNTO
+    | CONJUNTO tilde  CONJUNTO
+    | letra
+    | numero
+;
+
+LISTA_EXPRESIONES::= id guion mayor E puntoycoma
+;
+
+E::=  concatenacion E E
+        | disyuncion E E
+        | kleene E
+        | positivo E
+        | interrogacion E
+        | llaveabre id llavecierra 
+        | cadena
+        | comillasimple
+        | comilladoble
+
+        | comillaAbrir letra comillaCerrar
+;
+
+CADENAS_EVALUAR::= CADENAS_EVALUAR EVALUAR
+        |EVALUAR
+;
+
+EVALUAR::= id dospuntos cadena puntoycoma
 ;
