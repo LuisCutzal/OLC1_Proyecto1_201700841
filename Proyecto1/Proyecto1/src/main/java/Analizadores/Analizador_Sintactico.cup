@@ -27,7 +27,7 @@ terminal String conj, numero, cadena,id,letra;
 //------> declaracion de no terminales
 non terminal  INICIO,CUERPO;
 non terminal LISTA_CONJ, CONJ,CONJUNTO;
-non terminal LISTA_EXPRESIONES, E;
+non terminal LISTA_EXPRESIONES, E,EXPRESIONES;
 non terminal CADENAS_EVALUAR, EVALUAR;
 //------> precedencia de menor a mayor
 
@@ -65,7 +65,10 @@ CONJUNTO::= CONJUNTO coma  CONJUNTO
     | numero
 ;
 
-LISTA_EXPRESIONES::= id guion mayor E puntoycoma
+LISTA_EXPRESIONES::= LISTA_EXPRESIONES EXPRESIONES
+    | EXPRESIONES
+;
+EXPRESIONES::= id guion mayor E puntoycoma
 ;
 
 E::=  concatenacion E E
@@ -77,7 +80,6 @@ E::=  concatenacion E E
         | cadena
         | comillasimple
         | comilladoble
-
         | comillaAbrir letra comillaCerrar
 ;
 

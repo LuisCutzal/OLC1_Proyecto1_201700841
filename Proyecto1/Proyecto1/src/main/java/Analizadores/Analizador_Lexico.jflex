@@ -31,7 +31,7 @@ import java_cup.runtime.*;
 
 numero              = [0-9]+
 Letra               = [a-zA-ZñÑ]
-cadena              = [\"][^\"\n]+[\"]
+cadena              = [\"][^\"\n]+[\"]| [\'][^\"\n]+[\']
 id                  = {Letra}({Letra}|{numero}|_)*
 
 LineTerminator = \r|\n|\r\n
