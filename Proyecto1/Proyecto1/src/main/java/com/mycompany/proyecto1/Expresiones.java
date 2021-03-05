@@ -5,25 +5,28 @@
  */
 package com.mycompany.proyecto1;
 
-import java.util.LinkedList;
-
 public class Expresiones {
-    public Arbol raiz; 
     public String id;
+    public Arbol raiz;
     
     public Expresiones(String id, Arbol raiz){
-        this.raiz = raiz;
-        this.id = id;
+        this.id=id;
+        this.raiz=raiz;
     }
-    public String getId(){
+
+    public String getId() {
         return id;
     }
-    
-    public void setId(String id){
+
+    public void setId(String id) {
         this.id = id;
     }
-    
-     public Arbol getArbol(){
+
+    public Arbol getRaiz() {
         return raiz;
-    }    
+    }
+
+    public void setRaiz(Arbol raiz) {
+        this.raiz = raiz;
+    }
 }
