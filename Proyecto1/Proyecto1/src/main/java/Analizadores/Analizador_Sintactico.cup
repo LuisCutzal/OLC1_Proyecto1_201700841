@@ -4,9 +4,39 @@
 package Analizadores;
 import java_cup.runtime.Symbol;
 
+import com.mycompany.proyecto1.Nodo;
+import com.mycompany.proyecto1.Expresiones;
 
+import com.mycompany.proyecto1.Ventana;
+import com.mycompany.proyecto1.error;
+import com.mycompany.proyecto1.Arbol;
+
+import javax.swing.JOptionPane;
+import java.util.LinkedList;
 //------> Codigo para el parser,variables, metodos
-parser code{: :}
+parser code{:
+        public static Nodo raiz;
+        public static LinkedList<Expresiones> listaExpresiones;
+        public int hojas=0;
+        
+        public void syntax_error(Symbol s)
+        {
+            System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
+            error nuevo = new error("Error Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
+        }
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
+            error nuevo = new error("Error Sintactico", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
+        }
+
+        public Nodo getRaiz(){
+            return raiz;
+        }
+
+ :}
 
 //------> Codigo para las acciones gramaticales
 action code
@@ -25,18 +55,25 @@ terminal String concatenacion, kleene, disyuncion, interrogacion, positivo;
 terminal String conj, numero, cadena,id,letra;
 
 //------> declaracion de no terminales
-non terminal  INICIO,CUERPO;
+non terminal String  INICIO,CUERPO;
+
 non terminal LISTA_CONJ, CONJ,CONJUNTO;
-non terminal LISTA_EXPRESIONES, E,EXPRESIONES;
+
+non terminal LinkedList<Expresiones> LISTA_EXPRESIONES;
+non terminal Expresiones EXPRESIONES;
+non terminal Nodo E;
+
 non terminal CADENAS_EVALUAR, EVALUAR;
 //------> precedencia de menor a mayor
 
 precedence left coma;
 precedence left tilde;
 precedence left saltolinea;
-precedence right concatenacion;
-precedence right disyuncion;
-precedence right kleene, positivo, interrogacion;
+
+precedence left concatenacion;
+precedence left disyuncion;
+precedence left kleene, positivo, interrogacion;
+
 
 start with INICIO;
 
@@ -44,48 +81,46 @@ start with INICIO;
 
 INICIO::= llaveabre saltolinea CUERPO saltolinea llavecierra                                           {:  :}
     ;
-CUERPO::=LISTA_CONJ     
-    | LISTA_EXPRESIONES  
-    | porcentaje porcentaje
-    | CADENAS_EVALUAR
-    | CUERPO saltolinea CUERPO
+CUERPO::=LISTA_CONJ                                                                                    {:  :}     
+    | LISTA_EXPRESIONES:a                                                                                {: parser.listaExpresiones= a; :}
+    | porcentaje porcentaje                                                                            {:  :}
+    | CADENAS_EVALUAR                                                                                  {:  :}
+    | CUERPO saltolinea CUERPO                                                                         {:  :}
 ;
 
-LISTA_CONJ::= LISTA_CONJ CONJ
-    |CONJ
+LISTA_CONJ::= LISTA_CONJ CONJ                                                                          {:  :}
+    |CONJ                                                                                              {:  :}
 
 ;
 
-CONJ::= conj dospuntos id guion mayor CONJUNTO puntoycoma
+CONJ::= conj dospuntos id guion mayor CONJUNTO puntoycoma                                              {:  :}
 ;
 
-CONJUNTO::= CONJUNTO coma  CONJUNTO
-    | CONJUNTO tilde  CONJUNTO
-    | letra
-    | numero
+CONJUNTO::= CONJUNTO coma  CONJUNTO                                                                    {:  :}
+    | CONJUNTO tilde  CONJUNTO                                                                         {:  :}
+    | letra                                                                                            {:  :}
+    | numero                                                                                           {:  :}
 ;
 
-LISTA_EXPRESIONES::= LISTA_EXPRESIONES EXPRESIONES
-    | EXPRESIONES
+LISTA_EXPRESIONES::= LISTA_EXPRESIONES:a EXPRESIONES:b                                                     {: RESULT=a; RESULT.add(b); :}
+    | EXPRESIONES:a                                                                                      {: RESULT=new LinkedList<>();RESULT.add(a); :}
 ;
-EXPRESIONES::= id guion mayor E puntoycoma
+EXPRESIONES::= id:a guion:b mayor:c E:d puntoycoma:e                                                             {: RESULT= new Expresiones(a.toString(), new Arbol(d)); :}
+;   
+
+E::= concatenacion:a E:b E:c                                                                             {: RESULT= new Nodo("." ,"" ,-1 ,b ,c ); :}
+        |disyuncion:a E:b E:c                                                                            {: RESULT= new Nodo("|" ,"" ,-1 ,b ,c ); :}
+        | kleene:a E:b                                                                                   {: RESULT= new Nodo("*" ,"" ,-1 ,b ,null ); :}
+        | positivo:a  E:b                                                                                {: RESULT= new Nodo("+" ,"" ,-1 ,b ,null ); :}
+        | interrogacion:a E:b                                                                            {: RESULT= new Nodo("?" ,"" ,-1 ,b ,null ); :}
+        | llaveabre:a id:b llavecierra:c                                                                 {: RESULT= new Nodo(b.toString(),"",parser.hojas,null,null); parser.hojas++; :}
+        | cadena:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null); parser.hojas++; :}
+
 ;
 
-E::=  concatenacion E E
-        | disyuncion E E
-        | kleene E
-        | positivo E
-        | interrogacion E
-        | llaveabre id llavecierra 
-        | cadena
-        | comillasimple
-        | comilladoble
-        | comillaAbrir letra comillaCerrar
+CADENAS_EVALUAR::= CADENAS_EVALUAR EVALUAR                                                             {:  :}
+        |EVALUAR                                                                                       {:  :}
 ;
 
-CADENAS_EVALUAR::= CADENAS_EVALUAR EVALUAR
-        |EVALUAR
-;
-
-EVALUAR::= id dospuntos cadena puntoycoma
+EVALUAR::= id dospuntos cadena puntoycoma                                                              {:  :}
 ;
