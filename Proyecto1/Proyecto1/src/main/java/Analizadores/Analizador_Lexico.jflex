@@ -33,6 +33,7 @@ numero              = [0-9]+
 Letra               = [a-zA-ZñÑ]
 cadena              = [\"][^\"\n]+[\"]| [\'][^\"\n]+[\']
 id                  = {Letra}({Letra}|{numero}|_)*
+especiales          = [\\][\']|[\\]["n"]
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
@@ -72,10 +73,12 @@ comentariodoble     = [\<!][^]+[\!>] {InputCharacter}* {LineTerminator}?
 "CONJ"        { System.out.println("Reconocio "+yytext()+" conj"); return new Symbol(Simbolos.conj, yycolumn, yyline, yytext()); }
 
 //-------> Simbolos ER
-{numero}    { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext()); }
-{Letra}    { System.out.println("Reconocio "+yytext()+" letra"); return new Symbol(Simbolos.letra, yycolumn, yyline, yytext()); }
-{cadena}    { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
-{id}    { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
+{numero}            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext()); }
+{Letra}             { System.out.println("Reconocio "+yytext()+" letra"); return new Symbol(Simbolos.letra, yycolumn, yyline, yytext()); }
+{cadena}            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
+{id}                { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
+{especiales}        { System.out.println("Reconocio "+yytext()+" especiales"); return new Symbol(Simbolos.especiales, yycolumn, yyline, yytext()); }
+
 
 //------> Espacios
 {comentariosimple}      {System.out.println("Comentario: "+yytext()); }

@@ -49,7 +49,7 @@ action code
 terminal String llaveabre,llavecierra;
 terminal String guion, mayor,tilde,porcentaje;
 terminal String dospuntos, coma, puntoycoma;
-terminal String comilladoble, comillasimple,saltolinea;
+terminal String comilladoble, comillasimple,saltolinea,especiales;
 terminal String comillaAbrir, comillaCerrar;
 terminal String concatenacion, kleene, disyuncion, interrogacion, positivo;
 terminal String conj, numero, cadena,id,letra;
@@ -115,7 +115,9 @@ E::= concatenacion:a E:b E:c                                                    
         | interrogacion:a E:b                                                                            {: RESULT= new Nodo("?" ,"" ,-1 ,b ,null ); :}
         | llaveabre:a id:b llavecierra:c                                                                 {: RESULT= new Nodo(b.toString(),"",parser.hojas,null,null); parser.hojas++; :}
         | cadena:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null); parser.hojas++; :}
-
+        | especiales:a                                                                                   {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null); parser.hojas++; :}
+        | letra:a                                                                                        {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null); parser.hojas++; :}
+        | numero:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null); parser.hojas++; :}
 ;
 
 CADENAS_EVALUAR::= CADENAS_EVALUAR EVALUAR                                                             {:  :}

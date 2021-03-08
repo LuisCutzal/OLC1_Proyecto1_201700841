@@ -2,15 +2,31 @@ Digraph Arbol{
 
 node0[label = "."];
 node0 -> node00
-node00[label = "digito"];
+node00[label = "\'"];
 node0 -> node01
 node01[label = "."];
 node01 -> node010
-node010[label = "."];
+node010[label = "+"];
+node010 -> node0100
+node0100[label = "|"];
+node0100 -> node01000
+node01000[label = "|"];
+node01000 -> node010000
+node010000[label = "|"];
+node010000 -> node0100000
+node0100000[label = "|"];
+node0100000 -> node01000000
+node01000000[label = "\n"];
+node0100000 -> node01000001
+node01000001[label = "minus"];
+node010000 -> node0100001
+node0100001[label = "mayus"];
+node01000 -> node010001
+node010001[label = "digito"];
+node0100 -> node01001
+node01001[label = " "];
 node01 -> node011
-node011[label = "+"];
-node011 -> node0110
-node0110[label = "digito"];
+node011[label = "\'"];
 
 
 }
