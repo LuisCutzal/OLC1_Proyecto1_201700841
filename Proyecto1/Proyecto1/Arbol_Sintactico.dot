@@ -1,36 +1,84 @@
 Digraph Arbol{
 
-node0[label = ".Anulabilidad: N id: 0"];
+node0[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node0 -> node00
-node00[label = "posiblesAnulabilidad: N id: 1"];
+node00[label = "posiblesAnulabilidad: N
+ id: 1
+Siguiente: 
+Anterior:"];
 node0 -> node01
-node01[label = ".Anulabilidad: N id: 0"];
+node01[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node01 -> node010
-node010[label = "?Anulabilidad: A id: 0"];
+node010[label = "?Anulabilidad: A
+ id: 0
+Siguiente: 
+Anterior:"];
 node010 -> node0100
-node0100[label = "-Anulabilidad: N id: 2"];
+node0100[label = "-Anulabilidad: N
+ id: 2
+Siguiente: 
+Anterior:"];
 node01 -> node011
-node011[label = ".Anulabilidad: N id: 0"];
+node011[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node011 -> node0110
-node0110[label = "digitoAnulabilidad: N id: 3"];
+node0110[label = "digitoAnulabilidad: N
+ id: 3
+Siguiente: 
+Anterior:"];
 node011 -> node0111
-node0111[label = ".Anulabilidad: N id: 0"];
+node0111[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node0111 -> node01110
-node01110[label = "digitoAnulabilidad: N id: 4"];
+node01110[label = "digitoAnulabilidad: N
+ id: 4
+Siguiente: 
+Anterior:"];
 node0111 -> node01111
-node01111[label = ".Anulabilidad: N id: 0"];
+node01111[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node01111 -> node011110
-node011110[label = "digitoAnulabilidad: N id: 5"];
+node011110[label = "digitoAnulabilidad: N
+ id: 5
+Siguiente: 
+Anterior:"];
 node01111 -> node011111
-node011111[label = ".Anulabilidad: N id: 0"];
+node011111[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node011111 -> node0111110
-node0111110[label = "letraAnulabilidad: N id: 6"];
+node0111110[label = "letraAnulabilidad: N
+ id: 6
+Siguiente: 
+Anterior:"];
 node011111 -> node0111111
-node0111111[label = ".Anulabilidad: N id: 0"];
+node0111111[label = ".Anulabilidad: N
+ id: 0
+Siguiente: 
+Anterior:"];
 node0111111 -> node01111110
-node01111110[label = "letraAnulabilidad: N id: 7"];
+node01111110[label = "letraAnulabilidad: N
+ id: 7
+Siguiente: 
+Anterior:"];
 node0111111 -> node01111111
-node01111111[label = "letraAnulabilidad: N id: 8"];
+node01111111[label = "letraAnulabilidad: N
+ id: 8
+Siguiente: 
+Anterior:"];
 
 
 }

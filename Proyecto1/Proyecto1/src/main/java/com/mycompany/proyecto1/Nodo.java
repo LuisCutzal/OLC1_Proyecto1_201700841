@@ -20,11 +20,12 @@ public class Nodo {
     //que mas necesito, si es anulable o no, como lo se, poner un boolean, cero o uno, de cualquier forma
    // public boolean NoAnulable;
     public String Anulable;
-
+    public String siguiente;
+    public String anterior;
     public ArrayList<Nodo> hijos = new ArrayList<Nodo>(); //sirve para graficarlo
     
     //constructor para la clase nodo, se puede extender con mas componentes que necesitemos para el proyecto
-    public Nodo (String token, String lexema, int id, Nodo HijoIzquierdo, Nodo HijoDerecho,String Anulable){
+    public Nodo (String token, String lexema, int id, Nodo HijoIzquierdo, Nodo HijoDerecho,String Anulable,String sig, String ant){
         //".","",-1,b,c
         //a.toString(), "", parser.conthojas, null, null
         this.token = token;
@@ -33,6 +34,8 @@ public class Nodo {
         this.HijoIzquierdo= HijoIzquierdo;
         this.HijoDerecho= HijoDerecho;
         this.Anulable=Anulable;
+        this.siguiente=sig;
+        this.anterior=ant;
        // NoAnulable=false;
         if (HijoIzquierdo!=null){
             this.hijos.add(HijoIzquierdo);

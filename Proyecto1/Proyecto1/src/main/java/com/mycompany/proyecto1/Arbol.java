@@ -17,13 +17,13 @@ public class Arbol {
     }
     
      public void GraficarSintactico(){
-        String grafica = "Digraph Arbol{\n\n" + GraficaNodos(this.raiz, "0","",0) + "\n\n}";   //agregamos la estructura del graphviz
+        String grafica = "Digraph Arbol{\n\n" + GraficaNodos(this.raiz, "0","",0,"","") + "\n\n}";   //agregamos la estructura del graphviz
                         //nombre del archivo    metodo para graficar los nodos, recibiendo un nodo y un string
                         //este nombre debe cambiar el usuario debe de escribir el nombre
         GenerarDot(grafica);
     }
     
-    private String GraficaNodos(Nodo nodo, String i,String A,int id){
+    private String GraficaNodos(Nodo nodo, String i,String A,int id,String sig, String ant){
         //con este metodo recorremos por la izquierda
         int k=0; 
         String r = "";
@@ -32,11 +32,15 @@ public class Arbol {
         String anulable= nodo.Anulable;
         anulable=anulable.replace("\"", "");
         int numero=nodo.id;
-        r= "node" + i + "[label = \"" + nodoTerm +"Anulabilidad: "+anulable+" id: "+(numero+1) +"\"];\n";
+        String siguiente=nodo.siguiente;
+        siguiente=siguiente.replace("\"", "");
+        String anterior=nodo.anterior;
+        anterior=anterior.replace("\"", "");
+        r= "node" + i + "[label = \"" + nodoTerm +"Anulabilidad: "+anulable+"\n id: "+(numero+1)+"\nSiguiente: "+siguiente+"\nAnterior:"+anterior +"\"];\n";
         //nodo, string un label y creamos que es lo q pertenece, en este caso el token
         for(int j =0 ; j<=nodo.hijos.size()-1; j++){
             r = r + "node" + i + " -> node" + i + k + "\n";
-            r= r + GraficaNodos(nodo.hijos.get(j), ""+i+k,anulable,numero);
+            r= r + GraficaNodos(nodo.hijos.get(j), ""+i+k,anulable,numero,sig,ant);
             k++;
         }
         
