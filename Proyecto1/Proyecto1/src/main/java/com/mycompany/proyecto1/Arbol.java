@@ -11,49 +11,38 @@ import java.io.PrintWriter;
 public class Arbol {
     
     public Nodo raiz;
-
     
     public Arbol(Nodo raiz) {
         this.raiz = raiz;
     }
     
      public void GraficarSintactico(){
-        String grafica = "Digraph Arbol{\n\n" + GraficaNodos(this.raiz, "0","",0,"","") + "\n\n}";   //agregamos la estructura del graphviz
+        String grafica = "Digraph Arbol{\n\n" + GraficaNodos(this.raiz, "0") + "\n\n}";   //agregamos la estructura del graphviz
                         //nombre del archivo    metodo para graficar los nodos, recibiendo un nodo y un string
                         //este nombre debe cambiar el usuario debe de escribir el nombre
         GenerarDot(grafica);
     }
     
-    private String GraficaNodos(Nodo nodo, String i,String A,int id,String sig, String ant){
+    private String GraficaNodos(Nodo nodo, String i){
         //con este metodo recorremos por la izquierda
         int k=0; 
         String r = "";
-        //String a="A";
         String nodoTerm = nodo.token;
         nodoTerm = nodoTerm.replace("\"", "");
-        String nodoAnulable = nodo.Anulable;
-        nodoAnulable= nodoAnulable.replace("\"", "");
-        int numero=nodo.id;
-        String siguiente=nodo.siguiente;
-        String anterior=nodo.anterior;
-        r= "node" + i + "[label = \"" + nodoTerm+"\n"+"anulabilidad: " +nodoAnulable+"\n"+" id: "+ (numero+1)+"\n"+"Siguiente: "+siguiente+"\n"+"Anterior: "+anterior+"\"];\n";
-        //nodo, string un label y creamos que es lo que pertenece, en este caso el token
+        r= "node" + i + "[label = \"" + nodoTerm + "\"];\n";
+        //nodo, string un label y creamos que es lo q pertenece, en este caso el token
         for(int j =0 ; j<=nodo.hijos.size()-1; j++){
             r = r + "node" + i + " -> node" + i + k + "\n";
-            r= r + GraficaNodos(nodo.hijos.get(j), ""+i+k,A,id,sig,ant);
+            r= r + GraficaNodos(nodo.hijos.get(j), ""+i+k);
             k++;
         }
-        
         
         if( !(nodo.lexema.equals("")) ){
             String nodoToken = nodo.lexema;
             nodoToken = nodoToken.replace("\"", "");
-            
-            r += "node" + i + "[label = \"" + nodoToken +nodoAnulable+numero+siguiente+anterior+ "\"];\n";
-            
+            r += "node" + i + "c[label = \"" + nodoToken + "\"];\n";
             r += "node" + i + " -> node" + i + "c\n";
         }
-        
         return r;
     }
     private void GenerarDot(String cadena){
@@ -85,12 +74,5 @@ public class Arbol {
         }
        Desktop.getDesktop().open(new File(file_get_path));
     }
-    
-    public void Aceptar(String punto, String i,String aceptar)
-    {
-        int k=0;
-        String r2="";
-        String pnt=".";
-        
-    }
+
 }
