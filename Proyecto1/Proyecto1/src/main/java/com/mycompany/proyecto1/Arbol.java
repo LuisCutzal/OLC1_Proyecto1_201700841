@@ -17,30 +17,33 @@ public class Arbol {
     }
     
      public void GraficarSintactico(){
-        String grafica = "Digraph Arbol{\n\n" + GraficaNodos(this.raiz, "0") + "\n\n}";   //agregamos la estructura del graphviz
+        String grafica = "Digraph Arbol{\n\n" + GraficaNodos(this.raiz, "0","",0) + "\n\n}";   //agregamos la estructura del graphviz
                         //nombre del archivo    metodo para graficar los nodos, recibiendo un nodo y un string
                         //este nombre debe cambiar el usuario debe de escribir el nombre
         GenerarDot(grafica);
     }
     
-    private String GraficaNodos(Nodo nodo, String i){
+    private String GraficaNodos(Nodo nodo, String i,String A,int id){
         //con este metodo recorremos por la izquierda
         int k=0; 
         String r = "";
         String nodoTerm = nodo.token;
         nodoTerm = nodoTerm.replace("\"", "");
-        r= "node" + i + "[label = \"" + nodoTerm + "\"];\n";
+        String anulable= nodo.Anulable;
+        anulable=anulable.replace("\"", "");
+        int numero=nodo.id;
+        r= "node" + i + "[label = \"" + nodoTerm +"Anulabilidad: "+anulable+" id: "+(numero+1) +"\"];\n";
         //nodo, string un label y creamos que es lo q pertenece, en este caso el token
         for(int j =0 ; j<=nodo.hijos.size()-1; j++){
             r = r + "node" + i + " -> node" + i + k + "\n";
-            r= r + GraficaNodos(nodo.hijos.get(j), ""+i+k);
+            r= r + GraficaNodos(nodo.hijos.get(j), ""+i+k,anulable,numero);
             k++;
         }
         
         if( !(nodo.lexema.equals("")) ){
             String nodoToken = nodo.lexema;
             nodoToken = nodoToken.replace("\"", "");
-            r += "node" + i + "c[label = \"" + nodoToken + "\"];\n";
+            r += "node" + i + "c[label = \"" + nodoToken +A+id+ "\"];\n";
             r += "node" + i + " -> node" + i + "c\n";
         }
         return r;
